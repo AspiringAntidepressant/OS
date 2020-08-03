@@ -3,6 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 
 
@@ -10,13 +13,18 @@ int main(int argc, char **argv){
 
 	FILE *input;
 	char output;
-	//check for input
+		
+
 	if (argc == 1){
-		printf("No input file given.\n");
-		exit(0);
+		int tmp = fgetc(stdin);
+		if (stdin != NULL){
+			while (tmp != EOF){
+				putchar(tmp);
+				tmp = fgetc(stdin);
+			}
+		}
 	}
-	//input found
-	else{
+	else {
 		//open file in read mode
 		input = fopen(argv[1], "r");
 		//check that it is a real/useable file
@@ -28,7 +36,7 @@ int main(int argc, char **argv){
 		else{
 			output = fgetc(input);
 			while (output != EOF){
-				printf ("%c", output);
+				fprintf (stdout, "%c", output);
 				output = fgetc(input);
 			}
 		}
